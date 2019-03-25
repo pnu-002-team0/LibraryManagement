@@ -64,6 +64,7 @@
         </junit>
     </target>
     <target name="junitreport">
+        <mkdir dir="${junit.output.dir}"/>
         <junitreport todir="${junit.output.dir}">
             <fileset dir="${junit.output.dir}">
                 <include name="TEST-*.xml"/>
