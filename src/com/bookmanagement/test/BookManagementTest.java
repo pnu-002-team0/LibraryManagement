@@ -7,9 +7,11 @@ import com.bookmanagement.BookManagement;
 class BookManagementTest {
 
 	@Test
-	void testMain() {
+	void testAddBook() {
 		BookManagement book_management = new BookManagement();
-		assertNotNull(book_management);
+		assertTrue(book_management.addBook(2));
+		assertFalse(book_management.addBook(-1));
+		assertTrue(book_management.getBookCount()==1);
 	}
 
 }
