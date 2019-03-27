@@ -74,7 +74,7 @@
         </jacoco:coverage>
     	<jacoco:report>
     	    <executiondata>
-    	        <file file="jacoco.exec"/>
+    	        <file file="${junit.output.dir}/jacoco.exec"/>
     	    </executiondata>
 
     	    <structure name="java coverage">
