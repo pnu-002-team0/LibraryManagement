@@ -62,7 +62,7 @@
     <target name="BookManagementTest">
         <mkdir dir="${junit.output.dir}"/>
         <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-        	<classpath path="${jacoco.home}/lib/jacocoant.jar"/>
+        	<classpath path="C:/Program Files/Java/jacoco-0.8.3/lib/jacocoant.jar"/>
         </taskdef>  
     	<jacoco:coverage>
 	        <junit fork="yes" printsummary="withOutAndErr">
