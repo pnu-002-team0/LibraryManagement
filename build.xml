@@ -3,12 +3,16 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="LibraryManagement">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="LibraryManagement" xmlns:jacoco="antlib:org.jacoco.ant">
     <property environment="env"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+        <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        	<classpath path="${jacoco.home}/lib/jacocoant.jar"/>
+        </taskdef>     	
+              	
     <path id="JUnit 5.libraryclasspath">
         <pathelement location="../../.p2/pool/plugins/org.junit.jupiter.api_5.3.1.v20181005-1442.jar"/>
         <pathelement location="../../.p2/pool/plugins/org.junit.jupiter.engine_5.3.1.v20181005-1442.jar"/>
@@ -24,8 +28,11 @@
         <pathelement location="../../.p2/pool/plugins/org.apiguardian_1.0.0.v20181005-1442.jar"/>
         <pathelement location="../../.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
         <pathelement location="../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    	<pathelement location="../../.p2/pool/plugins/org.jacoco.agent_0.8.3.v20190219-1601.jar"/>
+    	<pathelement location="../../.p2/pool/plugins/org.jacoco.core_0.8.3.v20190219-1601.jar"/>
+    	<pathelement location="../../.p2/pool/plugins/org.jacoco.report_0.8.3.v20190219-1601.jar"/>
         <fileset dir="${ant.home}/lib" includes="*.jar" />
-        <fileset dir="${ant.home}/lib/junit" includes="*.jar" />
+    	<fileset dir="${ant.home}/lib/junit" includes="*.jar" />
     </path>
     <path id="LibraryManagement.classpath">
         <pathelement location="bin"/>
@@ -57,12 +64,29 @@
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target name="BookManagementTest">
         <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.BookManagementTest" todir="${junit.output.dir}"/>
-            <jvmarg line="-ea"/>
-            <classpath refid="LibraryManagement.classpath"/>
-        </junit>
+    	<jacoco:coverage>
+	        <junit fork="yes" printsummary="withOutAndErr">
+	            <formatter type="xml"/>
+	            <test name="test.BookManagementTest" todir="${junit.output.dir}"/>
+	            <jvmarg line="-ea"/>
+	            <classpath refid="LibraryManagement.classpath"/>
+	        </junit>
+        </jacoco:coverage>
+    	<jacoco:report>
+    	    <executiondata>
+    	        <file file="jacoco.exec"/>
+    	    </executiondata>
+
+    	    <structure name="java coverage">
+    	        <classfiles>
+    	              <fileset dir="bin"/>
+    	        </classfiles>
+    	        <sourcefiles encoding="UTF-8">
+    	              <fileset dir="src"/>
+    	        </sourcefiles>
+    	    </structure>
+    	    <html destdir="${junit.output.dir}/coverage-report"/>
+    	</jacoco:report>
     </target>
     <target name="BookManagement">
         <java classname="main.BookManagement" failonerror="true" fork="yes">
