@@ -3,7 +3,8 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="LibraryManagement" xmlns:jacoco="antlib:org.jacoco.ant">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="LibraryManagement" 
+              	xmlns:jacoco="antlib:org.jacoco.ant">
     <property environment="env"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
@@ -25,9 +26,6 @@
         <pathelement location="../../.p2/pool/plugins/org.apiguardian_1.0.0.v20181005-1442.jar"/>
         <pathelement location="../../.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
         <pathelement location="../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
-    	<pathelement location="../../.p2/pool/plugins/org.jacoco.agent_0.8.3.v20190219-1601.jar"/>
-    	<pathelement location="../../.p2/pool/plugins/org.jacoco.core_0.8.3.v20190219-1601.jar"/>
-    	<pathelement location="../../.p2/pool/plugins/org.jacoco.report_0.8.3.v20190219-1601.jar"/>
         <fileset dir="${ant.home}/lib" includes="*.jar" />
     	<fileset dir="${ant.home}/lib/junit" includes="*.jar" />
     </path>
@@ -62,7 +60,7 @@
     <target name="BookManagementTest">
         <mkdir dir="${junit.output.dir}"/>
         <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-        	<classpath path="C:/Program Files/Java/jacoco-0.8.3/lib/jacocoant.jar"/>
+        	<classpath path="${jacoco.home}/lib/jacocoant.jar"/>
         </taskdef>  
     	<jacoco:coverage>
 	        <junit fork="yes" printsummary="withOutAndErr">
